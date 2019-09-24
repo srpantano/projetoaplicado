@@ -172,3 +172,36 @@ plot_model(model, to_file='./plt_model.png')
 ```
 
 ![Plot](https://raw.githubusercontent.com/srpantano/projetoaplicado/master/Plot2.jpg)
+
+
+## :trophy: Validação manual :trophy:
+
+Chegou a hora da verdade, para isto, em um novo algoritmo, carrego o modelo:
+
+```python
+model = loadmodel("/content/pa_model_sem_peixe.h5")
+```
+
+Utilizei métodos do Keras para ler e processar as imagens para realizar a predição:
+
+```python
+predImage = image.load_img(imageName, target_size=(224, 224))
+predImage = image.img_to_array(predImage)
+predImage = np.expand_dims(predImage, axis=0)
+predImage /= 255
+
+predict = model.predict(predImage)
+```
+
+Logicamente que todos querem ver o resultado, para isto o OpenCV é util. Com ele deixei a imagme em um tamanho consideravel de ser exibido e inclui o texto com o resultado:
+
+```python
+cv.putText(showImg, "Proteina: {}".format(classLabels[np.argmax(percPredict)]),
+           (280, 470), cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+cv.imshow("Imagem", showImg)
+cv.waitKey(0)
+```
+
+![Com carne](https://raw.githubusercontent.com/srpantano/projetoaplicado/master/semCarne.png)
+
+![Sem carne](https://raw.githubusercontent.com/srpantano/projetoaplicado/master/comCarne.png)
